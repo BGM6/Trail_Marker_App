@@ -1,0 +1,15 @@
+* {
+    font-family: 'Dosis', sans-serif;
+}
+
+/*NAVBAR*/
+#nav-bar-links a {
+    color: whitesmoke;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/*Font Awesome Icons*/
+.fa-biking {
+    color: black;
+}
