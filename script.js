@@ -15,43 +15,59 @@ class App {
 	#workouts = [];
 
 	constructor() {
-
+		this._getPosition();
+		//Toggles between cadence elevation when going from cycling to running
+		inputType.addEventListener('change', this._toggleElevationField);
 	}
 
 	_getPosition() {
+		if (navigator.geolocation)
+			navigator.geolocation.getCurrentPosition(this._loadMap.bind(this), function () {
+				alert('Could not get your position');
+			});
+	}
+
+	_loadMap(position) {
+		const {latitude} = position.coords;
+		const {longitude} = position.coords;
+
+		const coords = [latitude, longitude];
+
+		this.#map = L.map('map').setView(coords, 13);
+
+		L.tileLayer('https://{s}.tiles.wmflabs.org/hikebike/{z}/{x}/{y}.png', {
+			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+		}).addTo(this.#map);
+
+		//Map Marker Code
+		this.#map.on('click', this._showForm.bind(this));
+
 
 	}
 
-	_loadMap() {
+	_showForm(mapE) {
+		this.#mapEvent = mapE;
+		form.classList.remove('hidden');
+		inputDistance.focus();
 
 	}
 
-	// _getCurrentPosition() {
-	//
-	// }
+	_hideForm() {
+		//Empty inputs;
+		inputDistance.value = inputDuration.value = inputCadence.value = inputElevation.value = '';
+	}
+
+	_toggleElevationField() {
+		inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
+		inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
+	}
+
+	_newWorkout(e) {
+		e.preventDefault();
+
+	}
+
 }
 
-if (navigator.geolocation)
-	navigator.geolocation.getCurrentPosition(
-		function (position) {
-			const {latitude} = position.coords;
-			const {longitude} = position.coords;
-
-			const coords = [latitude, longitude];
-
-			const map = L.map('map').setView(coords, 13);
-
-			L.tileLayer('https://{s}.tiles.wmflabs.org/hikebike/{z}/{x}/{y}.png', {
-				attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-			}).addTo(map);
-
-			L.marker(coords).addTo(map)
-				.bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-				.openPopup();
-
-		}, function () {
-			alert('Could not get your position');
-		});
-
-
 const app = new App();
+
