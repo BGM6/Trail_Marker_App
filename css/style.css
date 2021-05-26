@@ -255,12 +255,15 @@ a:visited {
     margin-top: 0.5rem;
     font-size: 2rem;
 }
+
 .footer a {
     color: var(--color-dark--1);
 }
+
 .footer a:hover {
     color: #ffb545;
 }
+
 .footer .social > * {
     margin-right: 5px;
 }
