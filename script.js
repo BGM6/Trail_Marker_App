@@ -96,7 +96,9 @@ class App {
 
 		//Map Marker Code
 		this.#map.on('click', this._showForm.bind(this));
-
+		this.#workouts.forEach(work => {
+			this._renderWorkoutMarker(work);
+		})
 
 	}
 
@@ -178,7 +180,7 @@ class App {
 				closeOnClick: false,
 				className: `${workout.type}-popup`,
 			})
-		).setPopupContent(`${workout.type === 'hiking' ? '🥾' : '‍🚴'} ${workout.description}`)
+		).setPopupContent(`${workout.type === 'hiking' ? '🏃' : '‍♂️'} ${workout.description}`)
 			.openPopup();
 	}
 
